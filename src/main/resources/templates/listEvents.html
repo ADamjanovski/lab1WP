@@ -1,0 +1,38 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Choose an event:</h2>
+    <form method="POST" action="/events">
+        <div th:each="event : ${events}">
+            <label>
+                <input type="radio" name="name" th:value="${event.getName()}">
+                <span>Name: <span th:text="${event.getName()}">
+                </span> Description: <span th:text="${event.getDescription()}" >
+                </span> Popularity Score: <span th:text="${event.getPopularityScore()}"></span></span>
+            </label>
+        </div>
+    <h2>Choose number of tickets:</h2>
+    <input type="number" name="numTickets" min="1" max="10"><br/>
+    <label for="attendeeName">Attendee Name</label>
+    <input type="text" id="attendeeName" placeholder="Attendee Name" name="attendeeName"/>
+    <input type="hidden" name="idAddress" th:value="${ipAddress}">
+    <br/>
+    <input type="submit" value="Submit">
+    </form>
+
+</main>
+</body>
+</html>
