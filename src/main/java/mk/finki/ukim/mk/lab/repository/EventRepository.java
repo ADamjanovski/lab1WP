@@ -17,8 +17,14 @@ public class EventRepository {
     }
 
     public List<Event> searchEvents(String text) {
-        return DataHolder.eventList.stream()
-                .filter(event -> event.getName().contains(text) || event.getDescription().contains(text))
-                .collect(Collectors.toList());
+        try{
+            Double rating=Double.parseDouble(text);
+            return DataHolder.eventList.stream()
+                    .filter(event -> event.getPopularityScore()>=rating).collect(Collectors.toList());
+        }catch (NumberFormatException e){
+            return DataHolder.eventList.stream()
+                    .filter(event -> event.getName().contains(text) || event.getDescription().contains(text))
+                    .collect(Collectors.toList());
+        }
     }
 }

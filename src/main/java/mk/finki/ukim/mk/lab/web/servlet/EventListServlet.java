@@ -31,8 +31,12 @@ public class EventListServlet extends HttpServlet {
                     .buildExchange(req, resp);
 
         WebContext context = new WebContext(webExchange);
+        if(req.getParameter("search")!=null && !req.getParameter("search").isEmpty()){
+            context.setVariable("events", eventService.searchEvents(req.getParameter("search")));
+        }else{
+            context.setVariable("events", eventService.listAll());
+        }
         context.setVariable("ipAddress", req.getRemoteAddr());
-        context.setVariable("events", eventService.listAll());
         springTemplateEngine.process("listEvents.html", context, resp.getWriter());
 
     }

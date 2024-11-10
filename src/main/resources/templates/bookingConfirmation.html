@@ -21,7 +21,7 @@
     <header>
         <h1>Event Booking page - Booking confirmation </h1>
     </header>
-    <table>
+    <table th:each="booking : ${bookings}">
         <tr>
             <th colspan="2">
                 Your Booking Status

@@ -39,19 +39,10 @@ public class EventBookingServlet extends HttpServlet {
         WebContext context = new WebContext(webExchange);
         context.setVariable("ipAddress", req.getRemoteAddr());
         String queryString = req.getQueryString();
-        List<String> values = new ArrayList<>();
         if (queryString != null && !queryString.isEmpty()) {
-            String[] params = queryString.split("&");
 
-            for (String param : params) {
-                String[] keyValue = param.split("=", 2);
-                String key = keyValue[0];
-                String value = keyValue.length > 1 ?  URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8) : "";
-                System.out.println("Key: " + key + ", Value: " + value);
-                values.add(value);
-            }
-            EventBooking booking=eventBookingService.placeBooking(values.get(0),values.get(1),req.getRemoteAddr(),Integer.parseInt(values.get(2)));
-            context.setVariable("booking",booking);
+            EventBooking booking=eventBookingService.placeBooking(req.getParameter("name"),req.getParameter("attendeeName"),req.getRemoteAddr(),Integer.parseInt(req.getParameter("numOfTickets")));
+            context.setVariable("bookings",eventBookingService.searchByText(req.getParameter("attendeeName")));
             springTemplateEngine.process("bookingConfirmation.html", context, resp.getWriter());
 
         } else {
