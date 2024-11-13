@@ -14,21 +14,26 @@
     <h1>Welcome to our Event Booking App</h1>
 </header>
 <main>
+    <th:block th:if="${hasError}">
+        <div th:text="${errorMessage}"></div>
+    </th:block>
     <h2>Choose an event:</h2>
-    <form method="POST" action="/events">
+    <form th:method="POST" th:action="@{'/events'}">
         <div th:each="event : ${events}">
-            <label>
-                <input type="radio" name="name" th:value="${event.getName()}">
+                <input type="radio" th:id="${event.getId()}" name="name" th:value="${event.getName()}">
                 <span>Name: <span th:text="${event.getName()}">
                 </span> Description: <span th:text="${event.getDescription()}" >
                 </span> Popularity Score: <span th:text="${event.getPopularityScore()}"></span></span>
-            </label>
+                <span>Location <span th:text="${event.getLocation().getName()}"></span></span>
+                <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}" ><i>Edit</i></a>
+                <a th:href="@{'/events/delete/{id}' (id=${event.getId()})}" ><i>Delete</i></a>
+
         </div>
     <h2>Choose number of tickets:</h2>
     <input type="number" name="numTickets" min="1" max="10"><br/>
     <label for="attendeeName">Attendee Name</label>
     <input type="text" id="attendeeName" placeholder="Attendee Name" name="attendeeName"/>
-    <input type="hidden" name="idAddress" th:value="${ipAddress}">
+    <input type="hidden" name="ipAddress" th:value="${ipAddress}">
     <br/>
     <input type="submit" value="Submit">
     </form>
@@ -36,6 +41,9 @@
         <label for="search">Search Events:</label>
         <input type="text" id="search" name="search">
         <input type="submit" value="Submit">
+    </form>
+    <form method="GET" action="/events/add-form">
+        <button type="submit">Add Event</button>
     </form>
 </main>
 </body>

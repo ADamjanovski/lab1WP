@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <form th:action="(${event} != null ? '/events/edit/' + ${event.getId()} : '/events/add')" th:method="POST">
+            <label for="name">Event Name:</label>
+            <input name="name" id="name" type="text" th:value="(${event}!=null ? ${event.getName()} : '')">
+            <label for="description">Description:</label>
+            <input name="description" id="description" type="text" th:value="(${event}!=null ? ${event.getDescription()} : '')">
+            <div th:if="${event}==null">
+                <label for="popularityScore">Popularity Score: </label>
+                <input type="number" id="popularityScore" name="popularityScore">
+            </div>
+            <label for="locationId">Location:</label>
+            <select id="locationId" name="locationId">
+                <option th:if="${event}!=null"
+                        th:each="location : ${locations}"
+                        th:value="${location.getId()}"
+                        th:text="${location.getName()}"
+                        th:selected="${event.getLocation() != null &&
+                                event.getLocation().getId() == location.getId()}">
+                </option>
+                <option th:if="${event}==null"
+                        th:each="location : ${locations}"
+                        th:value="${location.getId()}"
+                        th:text="${location.getName()}">
+                </option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

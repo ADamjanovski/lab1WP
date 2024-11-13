@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name="EventBookingServlet" ,urlPatterns = "/eventBooking")
+@WebServlet(name="EventBookingServlet" ,urlPatterns = "/eventBookingServlet")
 public class EventBookingServlet extends HttpServlet {
     private final EventBookingService eventBookingService;
     private final SpringTemplateEngine springTemplateEngine;
@@ -37,7 +37,7 @@ public class EventBookingServlet extends HttpServlet {
                 .buildExchange(req, resp);
 
         WebContext context = new WebContext(webExchange);
-        context.setVariable("ipAddress", req.getRemoteAddr());
+        context.setVariable("ipAddress", req.getSession().getAttribute("ipAddress"));
         String queryString = req.getQueryString();
         if (queryString != null && !queryString.isEmpty()) {
 

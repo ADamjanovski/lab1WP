@@ -13,7 +13,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name="EventListServlet",urlPatterns = "/events")
+@WebServlet(name="EventListServlet",urlPatterns = "/eventsServlet")
 public class EventListServlet extends HttpServlet {
     private final EventService eventService;
     private final SpringTemplateEngine springTemplateEngine;
@@ -45,8 +45,8 @@ public class EventListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name=req.getParameter("name");
         String ipAddress=req.getParameter("ipAddress");
-        String attendeeName=req.getParameter("attendeeName");
-        Long numOfTickets= Long.valueOf(req.getParameter("numTickets"));
+        String attendeeName= (String) req.getSession().getAttribute("name");
+        long numOfTickets= Long.parseLong(req.getParameter("numTickets"));
         eventService.searchEvents("name");
         resp.sendRedirect("/eventBooking?name="+name+"&attendeeName="+attendeeName+"&numOfTickets="+numOfTickets);
     }

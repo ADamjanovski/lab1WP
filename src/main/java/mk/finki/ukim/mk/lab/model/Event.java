@@ -2,16 +2,21 @@ package mk.finki.ukim.mk.lab.model;
 
 import lombok.Data;
 
+import java.util.Random;
+
 @Data
 public class Event {
+    private long id;
     private String name;
     private String description;
     private double popularityScore;
-
-    public Event(String name, String description, double popularityScore) {
+    private Location location;
+    public Event(String name, String description, double popularityScore,Location location) {
+        id= (long) (Math.random()*1000);
         this.name = name;
         this.description = description;
         this.popularityScore = popularityScore;
+        this.location=location;
     }
 
     public String getName() {
@@ -36,5 +41,13 @@ public class Event {
 
     public void setPopularityScore(double popularityScore) {
         this.popularityScore = popularityScore;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public long getId() {
+        return id;
     }
 }
