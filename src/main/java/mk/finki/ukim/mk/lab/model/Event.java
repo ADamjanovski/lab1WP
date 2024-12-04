@@ -1,53 +1,36 @@
 package mk.finki.ukim.mk.lab.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.Random;
+import java.util.List;
 
 @Data
+@Entity
+@NoArgsConstructor
 public class Event {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
     private double popularityScore;
+    @ManyToOne()
     private Location location;
+    @OneToMany(mappedBy = "event")
+    @ToString.Exclude
+    private List<EventBooking> bookings;
     public Event(String name, String description, double popularityScore,Location location) {
-        id= (long) (Math.random()*1000);
         this.name = name;
         this.description = description;
         this.popularityScore = popularityScore;
         this.location=location;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPopularityScore() {
-        return popularityScore;
-    }
-
-    public void setPopularityScore(double popularityScore) {
-        this.popularityScore = popularityScore;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public long getId() {
-        return id;
-    }
 }

@@ -25,12 +25,11 @@ public class EventController {
     public final EventService eventService;
 
     @GetMapping
-    public String getEventsPage(HttpServletRequest request,@RequestParam(required=false) String error,@RequestParam(required=false) String search, Model model){
+    public String getEventsPage(@RequestParam(required=false) String error,@RequestParam(required=false) String search, Model model){
         if(error!=null){
             model.addAttribute("hasError" ,true);
             model.addAttribute("errorMessage",error);
         }
-        model.addAttribute("ipAddress",request.getRemoteAddr());
         if(search!=null){
             model.addAttribute("events",eventService.searchEvents(search));
         }else {
@@ -75,8 +74,7 @@ public class EventController {
         return "add-event";
     }
     @PostMapping
-    public String BookEvent(HttpSession session,HttpServletRequest request, @RequestParam String name, @RequestParam String numTickets, @RequestParam String attendeeName, Model model){
-        session.setAttribute("ipAddress",request.getRemoteAddr());
-        return "redirect:/eventBooking?name="+name+"&attendeeName="+attendeeName+"&numTickets="+numTickets;
+    public String BookEvent( @RequestParam Long id, @RequestParam String numTickets){
+        return "redirect:/eventBooking?id="+id+"&numTickets="+numTickets;
     }
 }

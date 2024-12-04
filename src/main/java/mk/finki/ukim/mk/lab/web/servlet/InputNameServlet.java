@@ -12,7 +12,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "" ,name = "InputNameServlet")
+@WebServlet(urlPatterns = "/servlet" ,name = "InputNameServlet")
 public class InputNameServlet extends HttpServlet {
     private final SpringTemplateEngine springTemplateEngine;
 

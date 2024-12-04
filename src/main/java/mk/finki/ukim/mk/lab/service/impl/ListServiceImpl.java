@@ -2,7 +2,7 @@ package mk.finki.ukim.mk.lab.service.impl;
 
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.model.exception.NoLocationFoundException;
-import mk.finki.ukim.mk.lab.repository.LocationRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.LocationRepository;
 import mk.finki.ukim.mk.lab.service.ListService;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,8 @@ public class ListServiceImpl implements ListService {
 
     @Override
     public boolean delete(long id) {
-        Location location=locationRepository.findById(id).orElseThrow();
-        if(location!=null){
-            return locationRepository.delete(id);
+        return locationRepository.deleteById(id);
 
-        }
-        return false;
     }
 
     @Override
