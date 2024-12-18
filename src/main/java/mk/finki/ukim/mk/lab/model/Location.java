@@ -1,7 +1,5 @@
 package mk.finki.ukim.mk.lab.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,25 +10,23 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class Event {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String address;
+    private String capacity;
     private String description;
-    private double popularityScore;
-    @ManyToOne()
-    private Location location;
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "location")
     @ToString.Exclude
-    private List<EventBooking> bookings;
-    public Event(String name, String description, double popularityScore,Location location) {
+    private List<Event> event;
+
+    public Location(String name, String address, String capacity, String description) {
         this.name = name;
+        this.address = address;
+        this.capacity = capacity;
         this.description = description;
-        this.popularityScore = popularityScore;
-        this.location=location;
     }
-
-
 
 }

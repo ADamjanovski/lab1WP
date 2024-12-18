@@ -29,15 +29,15 @@
         </tr>
         <tr>
             <td><b>Attendee Name </b></td>
-            <td><span th:text="${booking.getAttendeeName()}"></span></td>
+            <td><span th:text="${booking.getAttendee().getUsername()}"></span></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
-            <td th:text="${booking.getAttendeeAddress()}"></td>
+            <td th:text="${booking.getAttendee().getIpAddress()}"></td>
         </tr>
         <tr>
             <td><b>Booking for Event</b></td>
-            <td th:text="${booking.getEventName()}"></td>
+            <td th:text="${booking.getEvent().getName()}"></td>
         </tr>
         <tr>
             <td><b>Number of tickets</b></td>

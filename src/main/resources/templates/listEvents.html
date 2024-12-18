@@ -8,35 +8,78 @@
             margin: auto;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e59232f0a1.js" crossorigin="anonymous"></script>
+
 </head>
-<body>
+<body class="d-flex flex-column justify-content-center align-items-center" style="width: 150vh; margin: 0;">
 <header>
     <h1>Welcome to our Event Booking App</h1>
 </header>
+<th:block class="nav-item" sec:authorize="isAnonymous()">
+    <a class="btn btn-light btn-sm ml-3" href="/login">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+    </a>
+</th:block>
+<th:block class="nav-item" sec:authorize="isAuthenticated()">
+    <a class="btn btn-light btn-sm ml-3" href="/logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+</th:block>
+
+
 <main>
+    <th:block th:if="${hasError}">
+        <div th:text="${errorMessage}"></div>
+    </th:block>
     <h2>Choose an event:</h2>
-    <form method="POST" action="/events">
+    <form th:method="POST" th:action="@{'/events'}">
         <div th:each="event : ${events}">
-            <label>
-                <input type="radio" name="name" th:value="${event.getName()}">
+                <input type="radio" th:id="${event.getId()}" name="id" th:value="${event.getId()}">
                 <span>Name: <span th:text="${event.getName()}">
                 </span> Description: <span th:text="${event.getDescription()}" >
                 </span> Popularity Score: <span th:text="${event.getPopularityScore()}"></span></span>
-            </label>
+                <span>Location <span th:text="${event.getLocation().getName()}"></span></span>
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}" ><i>Edit</i></a>
+                <a th:href="@{'/events/delete/{id}' (id=${event.getId()})}" ><i>Delete</i></a>
+            </th:block>
+
         </div>
     <h2>Choose number of tickets:</h2>
     <input type="number" name="numTickets" min="1" max="10"><br/>
-    <label for="attendeeName">Attendee Name</label>
-    <input type="text" id="attendeeName" placeholder="Attendee Name" name="attendeeName"/>
-    <input type="hidden" name="idAddress" th:value="${ipAddress}">
+
     <br/>
+        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
     <input type="submit" value="Submit">
+        </th:block>
     </form>
     <form method="GET" action="/events">
         <label for="search">Search Events:</label>
         <input type="text" id="search" name="search">
         <input type="submit" value="Submit">
     </form>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+    <form method="GET" action="/events/add-form">
+        <button type="submit">Add Event</button>
+    </form>
+    </th:block>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        <form method="GET" action="/events/add-location-form">
+            <button type="submit">Add Location</button>
+        </form>
+    </th:block>
+
 </main>
 </body>
 </html>
